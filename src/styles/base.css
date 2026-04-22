@@ -1,0 +1,130 @@
+/* ─── CSS Custom Properties ─── */
+:root {
+  --font-main: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --primary: #0A1628;
+  --primary-dark: #060E1A;
+  --primary-light: #1B2D4A;
+  --accent: #3B82F6;
+  --accent-hover: #2563EB;
+  --success: #00B894;
+  --warning: #FDCB6E;
+  --danger: #E17055;
+  --gold: #FFD700;
+  --bg: #f8fafc;
+  --bg-card: #ffffff;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --container-width: 1200px;
+}
+
+/* Color themes */
+[data-color="blue"] { --accent: #3B82F6; --accent-hover: #2563EB; }
+[data-color="red"] { --accent: #0D7377; --accent-hover: #0A5C5F; }
+[data-color="green"] { --accent: #3F51B5; --accent-hover: #303F9F; }
+[data-color="purple"] { --accent: #1A237E; --accent-hover: #0D1259; }
+[data-color="orange"] { --accent: #455A64; --accent-hover: #37474F; }
+
+/* ─── Reset & Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+img { max-width: 100%; height: auto; }
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 28px; font-size: 15px; font-weight: 600;
+  color: #fff; background: var(--accent);
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 28px; font-size: 15px; font-weight: 600;
+  color: var(--text); background: var(--bg-card);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── Section Headers ─── */
+.section-header {
+  text-align: center; margin-bottom: 48px;
+}
+.section-header h2 {
+  font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 12px;
+}
+.section-header p {
+  font-size: 16px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;
+}
+
+/* ─── Cards ─── */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 24px;
+  transition: all 0.2s ease;
+}
+.card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+
+/* ─── Loading ─── */
+.loading-spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Not Found ─── */
+.not-found {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 60vh; text-align: center; padding: 40px 20px;
+}
+.not-found h1 { font-size: 120px; font-weight: 900; color: var(--accent); opacity: 0.3; margin-bottom: 0; line-height: 1; }
+.not-found h2 { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+.not-found p { color: var(--text-secondary); margin-bottom: 24px; }
+
+/* ─── Progress Bar ─── */
+.progress-bar-wrapper {
+  width: 100%; height: 10px; background: var(--border); border-radius: 5px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; border-radius: 5px; transition: width 0.5s ease;
+}
+
+/* ─── Badge ─── */
+.badge-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; font-size: 12px; font-weight: 600;
+  border-radius: 20px; color: #fff;
+}

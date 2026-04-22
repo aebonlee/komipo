@@ -1,0 +1,37 @@
+/* ─── Footer ─── */
+.footer {
+  background: linear-gradient(135deg, #0A1628 0%, #060E1A 100%);
+  color: #CBD5E1; padding: 60px 0 0; margin-top: 80px;
+}
+.footer-content {
+  display: grid; grid-template-columns: 2fr 1.5fr 1.3fr; gap: 40px;
+}
+.footer-brand h3 { font-size: 22px; margin-bottom: 12px; }
+.footer-brand .brand-dream { color: #fff; }
+.footer-brand .brand-it { color: var(--accent); }
+.footer-brand .brand-biz { color: #94A3B8; }
+.footer-brand > p { font-size: 14px; color: #94A3B8; margin-bottom: 20px; }
+.company-info { font-size: 13px; line-height: 1.8; color: #64748B; }
+.company-info p { margin: 0; }
+.footer-links h4, .footer-contact h4 {
+  font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 16px;
+}
+.footer-links ul { display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 14px; color: #94A3B8; transition: color 0.2s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-contact p { font-size: 13px; margin-bottom: 6px; }
+.footer-family { margin-top: 16px; }
+.footer-family select {
+  width: 100%; padding: 8px 12px; font-size: 13px;
+  background: rgba(255,255,255,0.05); color: #CBD5E1;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+  cursor: pointer;
+}
+.footer-bottom {
+  text-align: center; padding: 20px 0; margin-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 13px; color: #475569;
+}
+@media (max-width: 768px) {
+  .footer-content { grid-template-columns: 1fr; gap: 30px; }
+}

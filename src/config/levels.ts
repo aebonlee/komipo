@@ -1,0 +1,48 @@
+import type { ChallengeLevel } from '../types';
+
+export const LEVELS: ChallengeLevel[] = [
+  {
+    id: 1,
+    title: '초급 (Beginner)',
+    titleEn: 'Beginner',
+    description: 'AI 기초 개념과 주요 도구에 대한 기본 이해도를 확인합니다.',
+    questionCount: 20,
+    passThreshold: 0.70,
+    color: '#00B894',
+    icon: '🌱',
+    prerequisiteLevel: null,
+  },
+  {
+    id: 2,
+    title: '중급 (Intermediate)',
+    titleEn: 'Intermediate',
+    description: '프롬프트 엔지니어링과 AI 도구 활용 능력을 평가합니다.',
+    questionCount: 25,
+    passThreshold: 0.75,
+    color: '#FDCB6E',
+    icon: '⚡',
+    prerequisiteLevel: 1,
+  },
+  {
+    id: 3,
+    title: '고급 (Advanced)',
+    titleEn: 'Advanced',
+    description: 'AI 에이전트, 업무 자동화, 윤리적 활용에 대한 심화 지식을 평가합니다.',
+    questionCount: 25,
+    passThreshold: 0.80,
+    color: '#E17055',
+    icon: '🔥',
+    prerequisiteLevel: 2,
+  },
+  {
+    id: 4,
+    title: '고수 (Master)',
+    titleEn: 'Master',
+    description: 'Fine-tuning, RAG, API 활용 등 고급 AI 기술에 대한 전문가 수준을 확인합니다.',
+    questionCount: 20,
+    passThreshold: 0.85,
+    color: '#FFD700',
+    icon: '👑',
+    prerequisiteLevel: 3,
+  },
+];
