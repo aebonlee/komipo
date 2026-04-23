@@ -1,6 +1,7 @@
 -- ============================================
 -- KOMIPO AI Learning Platform — Database Schema
 -- Prefix: komipo_
+-- 실행: Supabase SQL Editor에서 전체 복사하여 실행
 -- ============================================
 
 -- ── 카테고리 ──
@@ -9,6 +10,7 @@ CREATE TABLE IF NOT EXISTS komipo_categories (
   title TEXT NOT NULL,
   title_en TEXT,
   icon TEXT,
+  fa_icon TEXT,
   description TEXT,
   description_en TEXT,
   lesson_count INTEGER DEFAULT 0,
@@ -106,7 +108,7 @@ CREATE TABLE IF NOT EXISTS komipo_user_levels (
 CREATE TABLE IF NOT EXISTS komipo_lesson_progress (
   id SERIAL PRIMARY KEY,
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  lesson_id TEXT REFERENCES komipo_lessons(id),
+  lesson_id TEXT,
   completed BOOLEAN DEFAULT false,
   quiz_score NUMERIC(5,2),
   completed_at TIMESTAMPTZ,
@@ -172,6 +174,8 @@ CREATE INDEX IF NOT EXISTS idx_komipo_user_levels_user ON komipo_user_levels(use
 CREATE INDEX IF NOT EXISTS idx_komipo_activity_log_user ON komipo_activity_log(user_id);
 
 -- ═══ RLS ═══
+
+-- 유저 데이터 테이블: 자신의 데이터만 관리
 ALTER TABLE komipo_stamps ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_challenge_attempts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_user_levels ENABLE ROW LEVEL SECURITY;
@@ -180,16 +184,44 @@ ALTER TABLE komipo_user_badges ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_certificates ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_activity_log ENABLE ROW LEVEL SECURITY;
 
--- Users can read/write their own data
-CREATE POLICY "Users manage own stamps" ON komipo_stamps FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users manage own attempts" ON komipo_challenge_attempts FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users manage own levels" ON komipo_user_levels FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users manage own lesson_progress" ON komipo_lesson_progress FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users manage own badges" ON komipo_user_badges FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users manage own certs" ON komipo_certificates FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users manage own activity" ON komipo_activity_log FOR ALL USING (auth.uid() = user_id);
+-- 자신의 데이터 CRUD
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_stamps_own' AND tablename = 'komipo_stamps') THEN
+    CREATE POLICY "komipo_stamps_own" ON komipo_stamps FOR ALL USING (auth.uid() = user_id);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_attempts_own' AND tablename = 'komipo_challenge_attempts') THEN
+    CREATE POLICY "komipo_attempts_own" ON komipo_challenge_attempts FOR ALL USING (auth.uid() = user_id);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_user_levels_own' AND tablename = 'komipo_user_levels') THEN
+    CREATE POLICY "komipo_user_levels_own" ON komipo_user_levels FOR ALL USING (auth.uid() = user_id);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_lesson_progress_own' AND tablename = 'komipo_lesson_progress') THEN
+    CREATE POLICY "komipo_lesson_progress_own" ON komipo_lesson_progress FOR ALL USING (auth.uid() = user_id);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_user_badges_own' AND tablename = 'komipo_user_badges') THEN
+    CREATE POLICY "komipo_user_badges_own" ON komipo_user_badges FOR ALL USING (auth.uid() = user_id);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_certs_own' AND tablename = 'komipo_certificates') THEN
+    CREATE POLICY "komipo_certs_own" ON komipo_certificates FOR ALL USING (auth.uid() = user_id);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_activity_own' AND tablename = 'komipo_activity_log') THEN
+    CREATE POLICY "komipo_activity_own" ON komipo_activity_log FOR ALL USING (auth.uid() = user_id);
+  END IF;
+END $$;
 
--- Public read for reference tables
+-- 참조 테이블: 누구나 읽기 가능
 ALTER TABLE komipo_categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_lessons ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_lesson_quizzes ENABLE ROW LEVEL SECURITY;
@@ -198,13 +230,74 @@ ALTER TABLE komipo_challenges ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_badges ENABLE ROW LEVEL SECURITY;
 ALTER TABLE komipo_announcements ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Anyone can read categories" ON komipo_categories FOR SELECT USING (true);
-CREATE POLICY "Anyone can read lessons" ON komipo_lessons FOR SELECT USING (true);
-CREATE POLICY "Anyone can read quizzes" ON komipo_lesson_quizzes FOR SELECT USING (true);
-CREATE POLICY "Anyone can read levels" ON komipo_levels FOR SELECT USING (true);
-CREATE POLICY "Anyone can read challenges" ON komipo_challenges FOR SELECT USING (true);
-CREATE POLICY "Anyone can read badges" ON komipo_badges FOR SELECT USING (true);
-CREATE POLICY "Anyone can read announcements" ON komipo_announcements FOR SELECT USING (true);
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_categories_read' AND tablename = 'komipo_categories') THEN
+    CREATE POLICY "komipo_categories_read" ON komipo_categories FOR SELECT USING (true);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_lessons_read' AND tablename = 'komipo_lessons') THEN
+    CREATE POLICY "komipo_lessons_read" ON komipo_lessons FOR SELECT USING (true);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_quizzes_read' AND tablename = 'komipo_lesson_quizzes') THEN
+    CREATE POLICY "komipo_quizzes_read" ON komipo_lesson_quizzes FOR SELECT USING (true);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_levels_read' AND tablename = 'komipo_levels') THEN
+    CREATE POLICY "komipo_levels_read" ON komipo_levels FOR SELECT USING (true);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_challenges_read' AND tablename = 'komipo_challenges') THEN
+    CREATE POLICY "komipo_challenges_read" ON komipo_challenges FOR SELECT USING (true);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_badges_read' AND tablename = 'komipo_badges') THEN
+    CREATE POLICY "komipo_badges_read" ON komipo_badges FOR SELECT USING (true);
+  END IF;
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'komipo_announcements_read' AND tablename = 'komipo_announcements') THEN
+    CREATE POLICY "komipo_announcements_read" ON komipo_announcements FOR SELECT USING (true);
+  END IF;
+END $$;
+
+-- ═══ LEADERBOARD RPC FUNCTION ═══
+CREATE OR REPLACE FUNCTION komipo_get_leaderboard(limit_count INTEGER DEFAULT 20)
+RETURNS TABLE (
+  user_id UUID,
+  display_name TEXT,
+  stamps_count BIGINT,
+  badges_count BIGINT,
+  highest_level INTEGER
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    s.user_id,
+    COALESCE(p.display_name, '학습자') AS display_name,
+    COUNT(DISTINCT s.id) AS stamps_count,
+    COALESCE(ub.badge_cnt, 0) AS badges_count,
+    MAX(s.level_id) AS highest_level
+  FROM komipo_stamps s
+  LEFT JOIN user_profiles p ON p.id = s.user_id
+  LEFT JOIN (
+    SELECT ub2.user_id, COUNT(*)::BIGINT AS badge_cnt
+    FROM komipo_user_badges ub2
+    GROUP BY ub2.user_id
+  ) ub ON ub.user_id = s.user_id
+  GROUP BY s.user_id, p.display_name, ub.badge_cnt
+  ORDER BY stamps_count DESC, highest_level DESC
+  LIMIT limit_count;
+END;
+$$;
 
 -- ═══ SEED DATA ═══
 

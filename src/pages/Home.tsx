@@ -2,18 +2,9 @@ import { Link } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { CATEGORIES } from '../data/categories';
 import { LEVELS } from '../config/levels';
 import type { ReactElement } from 'react';
-
-const CATEGORIES = [
-  { id: 'ai-basics', icon: '🤖', title: 'AI 기초', titleEn: 'AI Basics', desc: 'AI/ML/DL 개념, 생성형 AI, LLM의 기본을 배웁니다.', lessons: 5 },
-  { id: 'ai-tools', icon: '🛠️', title: 'AI 도구 활용', titleEn: 'AI Tools', desc: 'ChatGPT, Claude, Gemini 등 주요 AI 도구 사용법을 익힙니다.', lessons: 6 },
-  { id: 'prompt', icon: '✍️', title: '프롬프트 엔지니어링', titleEn: 'Prompt Engineering', desc: '효과적인 프롬프트 작성법과 고급 기법을 학습합니다.', lessons: 6 },
-  { id: 'ai-agents', icon: '🤝', title: 'AI 에이전트', titleEn: 'AI Agents', desc: 'AI 에이전트의 개념과 MCP, 자동화 활용법을 배웁니다.', lessons: 4 },
-  { id: 'business', icon: '💼', title: '업무 활용', titleEn: 'Business Use', desc: '문서, 데이터, PPT, 이메일 등 실무에서의 AI 활용을 배웁니다.', lessons: 6 },
-  { id: 'ethics', icon: '🛡️', title: 'AI 윤리 & 보안', titleEn: 'AI Ethics & Security', desc: '책임있는 AI 사용, 프라이버시, 보안 가이드를 학습합니다.', lessons: 5 },
-  { id: 'advanced', icon: '🚀', title: '고급 활용', titleEn: 'Advanced', desc: 'Fine-tuning, RAG, API 등 고급 AI 기술을 배웁니다.', lessons: 4 },
-];
 
 const Home = (): ReactElement => {
   const { isLoggedIn } = useAuth();
@@ -43,22 +34,22 @@ const Home = (): ReactElement => {
       <div className="container">
         <div className="stats-bar">
           <div className="stat-card animate-fade-in-up">
-            <div className="stat-icon">📚</div>
+            <div className="stat-icon"><i className="fa-solid fa-layer-group" /></div>
             <div className="stat-value">7</div>
             <div className="stat-label">학습 카테고리</div>
           </div>
           <div className="stat-card animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <div className="stat-icon">📝</div>
+            <div className="stat-icon"><i className="fa-solid fa-book-open" /></div>
             <div className="stat-value">36</div>
             <div className="stat-label">학습 레슨</div>
           </div>
           <div className="stat-card animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="stat-icon">🏆</div>
+            <div className="stat-icon"><i className="fa-solid fa-trophy" /></div>
             <div className="stat-value">90</div>
             <div className="stat-label">챌린지 문제</div>
           </div>
           <div className="stat-card animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <div className="stat-icon">🎖️</div>
+            <div className="stat-icon"><i className="fa-solid fa-medal" /></div>
             <div className="stat-value">4</div>
             <div className="stat-label">도장 레벨</div>
           </div>
@@ -75,11 +66,14 @@ const Home = (): ReactElement => {
           <div className="category-grid">
             {CATEGORIES.map((cat, i) => (
               <Link to={`/learn/${cat.id}`} key={cat.id} className="category-card animate-fade-in-up" style={{ animationDelay: `${i * 0.05}s` }}>
-                <div className="category-icon">{cat.icon}</div>
+                <div className="category-icon">
+                  <i className={cat.faIcon} />
+                </div>
                 <h3>{cat.title}</h3>
-                <p>{cat.desc}</p>
+                <p>{cat.description}</p>
                 <div className="category-meta">
-                  <span>{cat.lessons}개 레슨</span>
+                  <span>{cat.lessonCount}개 레슨</span>
+                  <span>{cat.estimatedMinutes}분</span>
                 </div>
               </Link>
             ))}
@@ -105,7 +99,7 @@ const Home = (): ReactElement => {
                 </div>
                 {i > 0 && (
                   <div className="level-badge" style={{ background: 'var(--text-muted)' }}>
-                    🔒 잠김
+                    <i className="fa-solid fa-lock" style={{ marginRight: '4px' }} /> 잠김
                   </div>
                 )}
               </div>

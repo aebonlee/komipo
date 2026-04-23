@@ -19,7 +19,9 @@ const LearnHub = (): ReactElement => {
           <div className="category-grid">
             {CATEGORIES.map((cat, i) => (
               <Link to={`/learn/${cat.id}`} key={cat.id} className="category-card animate-fade-in-up" style={{ animationDelay: `${i * 0.05}s` }}>
-                <div className="category-icon">{cat.icon}</div>
+                <div className="category-icon">
+                  <i className={cat.faIcon} />
+                </div>
                 <h3>{language === 'ko' ? cat.title : cat.titleEn}</h3>
                 <p>{language === 'ko' ? cat.description : cat.descriptionEn}</p>
                 <div className="category-meta">
