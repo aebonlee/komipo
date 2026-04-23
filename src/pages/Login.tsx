@@ -1,17 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useToast } from '../contexts/ToastContext';
+import { useAuth } from '../contexts/AuthContext';
 import { signInWithGoogle, signInWithKakao, signInWithEmail } from '../utils/auth';
 import type { ReactElement } from 'react';
 
 const Login = (): ReactElement => {
   const { t } = useLanguage();
   const { showToast } = useToast();
+  const { isLoggedIn, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
+
+  // 이미 로그인된 경우 리디렉트
+  useEffect(() => {
+    if (!authLoading && isLoggedIn) {
+      navigate(from, { replace: true });
+    }
+  }, [isLoggedIn, authLoading, navigate, from]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

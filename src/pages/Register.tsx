@@ -1,12 +1,22 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
 import { signUp, signInWithGoogle, signInWithKakao } from '../utils/auth';
 import type { ReactElement } from 'react';
 
 const Register = (): ReactElement => {
   const { t } = useLanguage();
+  const { isLoggedIn, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
+  // 이미 로그인된 경우 홈으로 리디렉트
+  useEffect(() => {
+    if (!authLoading && isLoggedIn) {
+      navigate('/', { replace: true });
+    }
+  }, [isLoggedIn, authLoading, navigate]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
