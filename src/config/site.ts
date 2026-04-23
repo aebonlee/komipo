@@ -66,6 +66,11 @@ const site: SiteConfig = {
       ]
     },
     {
+      labelKey: 'nav.promptPractice',
+      path: '/prompt-practice',
+      activePath: '/prompt-practice',
+    },
+    {
       labelKey: 'nav.challenge',
       path: '/challenge',
       activePath: '/challenge',

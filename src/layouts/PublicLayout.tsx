@@ -24,6 +24,9 @@ const ChallengeHub = lazy(() => import('../pages/ChallengeHub'));
 const LevelView = lazy(() => import('../pages/LevelView'));
 const ChallengeView = lazy(() => import('../pages/ChallengeView'));
 
+// Prompt Practice
+const PromptPractice = lazy(() => import('../pages/prompt-practice/PromptPractice'));
+
 // Progress & Profile
 const Progress = lazy(() => import('../pages/Progress'));
 const Profile = lazy(() => import('../pages/Profile'));
@@ -60,6 +63,9 @@ const PublicLayout = (): ReactElement => {
             <Route path="/learn" element={<LearnHub />} />
             <Route path="/learn/:categoryId" element={<CategoryView />} />
             <Route path="/learn/:categoryId/:lessonId" element={<LessonView />} />
+
+            {/* Prompt Practice */}
+            <Route path="/prompt-practice" element={<PromptPractice />} />
 
             {/* Challenge */}
             <Route path="/challenge" element={<AuthGuard><ChallengeHub /></AuthGuard>} />
