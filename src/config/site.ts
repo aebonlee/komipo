@@ -50,7 +50,6 @@ const site: SiteConfig = {
     { name: 'orange', color: '#455A64' },
   ],
   menuItems: [
-    { path: '/', labelKey: 'nav.home' },
     {
       labelKey: 'nav.learn',
       path: '/learn',
@@ -79,7 +78,6 @@ const site: SiteConfig = {
     { path: '/leaderboard', labelKey: 'nav.leaderboard' },
   ],
   footerLinks: [
-    { path: '/', labelKey: 'nav.home' },
     { path: '/learn', labelKey: 'nav.learn' },
     { path: '/challenge', labelKey: 'nav.challenge' },
     { path: '/leaderboard', labelKey: 'nav.leaderboard' },
