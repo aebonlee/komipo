@@ -38,6 +38,7 @@ const AdminUsers = lazy(() => import('../pages/admin/Users'));
 const AdminChallenges = lazy(() => import('../pages/admin/Challenges'));
 const AdminLessons = lazy(() => import('../pages/admin/Lessons'));
 const AdminAnalytics = lazy(() => import('../pages/admin/Analytics'));
+const About = lazy(() => import('../pages/About'));
 
 const Loading = (): ReactElement => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
@@ -83,6 +84,8 @@ const PublicLayout = (): ReactElement => {
             <Route path="/admin/challenges" element={<AdminGuard><AdminChallenges /></AdminGuard>} />
             <Route path="/admin/lessons" element={<AdminGuard><AdminLessons /></AdminGuard>} />
             <Route path="/admin/analytics" element={<AdminGuard><AdminAnalytics /></AdminGuard>} />
+            <Route path="/about" element={<About />} />
+
 
             <Route path="*" element={<NotFound />} />
           </Routes>

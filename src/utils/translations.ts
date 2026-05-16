@@ -14,6 +14,7 @@ export const translations: Record<string, Record<string, unknown>> = {
       ethics: 'AI 윤리 & 보안',
       advanced: '고급 활용',
       promptPractice: '프롬프트 실습',
+          about: '소개',
     },
     footer: {
       tagline: '한국중부발전 AI 리터러시 교육 플랫폼',
@@ -96,6 +97,7 @@ export const translations: Record<string, Record<string, unknown>> = {
       ethics: 'AI Ethics & Security',
       advanced: 'Advanced',
       promptPractice: 'Prompt Practice',
+          about: 'About',
     },
     footer: {
       tagline: 'KOMIPO AI Literacy Education Platform',
